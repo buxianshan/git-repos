@@ -1,6 +1,6 @@
 # GitRepos
 
-GitRepos 是一个多Git仓库项目管理工具。
+GitRepos 是一个多Git仓库项目管理工具，基于 [Electron](https://www.electronjs.org/)、[Vue2](https://v2.vuejs.org/)、[Element UI](https://element.eleme.cn/)、[Simple Git](https://github.com/steveukx/git-js)。
 
 当一个项目由多个仓库组成时，日常开发频繁使用`git status`、`git pull`就变得重复且枯燥。
 
