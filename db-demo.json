@@ -1,0 +1,17 @@
+{
+    "projects": [
+        {
+            "projectName": "demo-project",
+            "repos": [
+                {
+                    "repoName": "repo01",
+                    "localPath": "D:\\code\\repo01"
+                },
+                {
+                    "repoName": "repo02",
+                    "localPath": "D:\\code\\repo02"
+                }
+            ]
+        }
+    ]
+}
