@@ -67,6 +67,7 @@ export default {
       // 这个key的作用就是刷新data，无实际意义
       key: Math.random(),
       isTableLoading: false,
+      refreshResults: [],
     }
   },
   mounted() {
@@ -84,22 +85,27 @@ export default {
       }
       this.key = Math.random()
     },
-    async refreshProjectDataSync() {
+    refreshProjectDataSync() {
+      this.refreshResults = []
       for (let i of this.projectConfig.repos) {
-        await this.getRepoStatus(i)
+        this.getRepoStatus(i).then(result => {
+          this.refreshResults.push(result)
+          // 所有仓库都刷新完毕
+          if (this.refreshResults.length === this.projectConfig.repos.length) {
+            this.isTableLoading = false
+            this.$message({
+              message: '已刷新',
+              showClose: true,
+              type: 'success'
+            })
+            this.key = Math.random()
+          }
+        })
       }
-      this.key = Math.random()
     },
     clickRefresh() {
       this.isTableLoading = true
-      this.refreshProjectDataSync().then(() => {
-        this.isTableLoading = false
-        this.$message({
-          message: '已刷新',
-          showClose: true,
-          type: 'success'
-        });
-      })
+      this.refreshProjectDataSync()
     },
     getRealBranch(branch) {
       // 替换分支名中的变量
