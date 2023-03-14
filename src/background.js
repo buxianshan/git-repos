@@ -153,6 +153,11 @@ app.on('ready', async () => {
         shell.openPath(path)
     })
 
+    // 使用默认浏览器打开链接
+    ipcMain.on('open-url', (event, url) => {
+        shell.openExternal(url);
+    });
+
     // 记录已打开的窗口
     const projectWindowMap = new Map()
 

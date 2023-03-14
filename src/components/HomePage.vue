@@ -3,7 +3,7 @@
     <el-row id="topButton">
       <el-button size="small" icon="el-icon-plus" @click="addProjectDialogVisible = true">创建项目</el-button>
       <el-button size="small" icon="el-icon-upload" @click="handleUploadConfig">导入配置</el-button>
-      <el-button size="small" icon="el-icon-question" @click="handleAbout">使用说明</el-button>
+      <el-button size="small" icon="el-icon-question" @click="aboutDialogVisible = true">使用说明</el-button>
     </el-row>
     <el-table
         :data="tableData.projects"
@@ -70,6 +70,19 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+
+    <el-dialog :visible.sync="aboutDialogVisible" width="80%">
+      <template slot="title">
+        <div>GitRepos <el-tag type="info">{{`v${appVersion}`}}</el-tag></div>
+      </template>
+      <div>
+        <p>此工具用于管理本地多Git仓库项目。点击创建项目，选择本地仓库路径即可。目前支持批量拉取和更新状态。</p>
+        <br>
+        源码地址：<el-link type="primary" @click="openBrowser('https://github.com/buxianshan/git-repos')">
+        https://github.com/buxianshan/git-repos
+        </el-link>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -89,6 +102,7 @@ export default {
     return {
       tableData: config,
       addProjectDialogVisible: false,
+      aboutDialogVisible: false,
       addProjectForm: {
         projectName: "",
         repos: [
@@ -99,6 +113,7 @@ export default {
         isEdit: false,
       },
       hasGitEnv: true,
+      appVersion: process.env.VUE_APP_VERSION,
     }
   },
   mounted() {
@@ -277,6 +292,9 @@ export default {
         ],
       }
     },
+    openBrowser(url) {
+      ipcRenderer.send("open-url", url)
+    }
   },
   beforeCreate() {
     document.getElementsByTagName("title")[0].innerHTML = "GitRepos"
